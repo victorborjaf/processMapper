@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from .gaussClassifier import *
 from .gaussRegression import *
 
+import csv
 import warnings
 
 """
@@ -36,12 +37,28 @@ class PCDataSet():
    """
    def __init__( self, path=None ):
       if path is None:
-         self.multiVector = np.zeros( (0,10) )
+         self.multiVector = np.zeros((0, 10))
       else:
-         self.multiVector = np.genfromtxt(path, skip_header=1, delimiter=',')
+         self.multiVector = self.load_filtered_csv(path)
          
       self.nbVectors = np.shape(self.multiVector)[0]
+
+   """
+   Filters the data that are signalized as not valid
+   """   
+   def load_filtered_csv(self, path):
+      with open(path, newline='') as csvfile:
+         reader = csv.reader(csvfile)
+         headers = next(reader)  # Lendo o cabeçalho
          
+         if "Valid?" in headers:
+               valid_index = headers.index("Valid?")
+               data = [row for row in reader if row[valid_index].strip().lower() != "no"]
+         else:
+               data = list(reader)
+
+      return np.array(data, dtype=float) if data else np.zeros((0, 10))
+
    """
    Adds data from a csv to total data heap (by concatenation)
    """
