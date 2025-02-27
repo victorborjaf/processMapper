@@ -1,6 +1,6 @@
 import numpy as np
 
-from .gaussRegression import *
+from gaussRegression import *
 
 """
 Utilities for Gaussian Processes classification
