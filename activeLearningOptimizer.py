@@ -1,8 +1,8 @@
 import numpy as np
 #import matplotlib.pyplot as plt
 
-from .dataSet import *
-from .gaussRegression import *
+from dataSet import *
+from gaussRegression import *
 
 """
 Utilities for active learning.
